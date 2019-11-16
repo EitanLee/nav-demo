@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>键盘导航</title>
+    <link rel="stylesheet" href="./css/style.css" type="text/css">
+</head>
+
+<body>
+    <header></header>
+    <main>
+        <div class="kbdBox" id="main1"></div>
+    </main>
+    <footer></footer>
+    <script>
+        //1.初始化数据
+        var keys = {
+            '0': { 0: 'q', 1: 'w', 2: 'e', 3: 'r', 4: 't', 5: 'y', 6: 'u', 7: 'i', 8: 'o', 9: 'p', "length": 10 },
+            '1': { 0: 'a', 1: 's', 2: 'd', 3: 'f', 4: 'g', 5: 'h', 6: 'j', 7: 'k', 8: 'l', "length": 9 },
+            '2': { 0: 'z', 1: 'x', 2: 'c', 3: 'v', 4: 'b', 5: 'n', 6: 'm', "length": 7 },
+            'length': 3
+        }
+        var hash = {
+            q: '//www.qq.com', w: '//weibo.com', e: '//ele.me', r: 'www.renren.com', y: 'www.youtube.com', g: 'www.google.com', a: 'www.apple.com', b: 'www.bilibili.com'
+        }
+
+        //2.生成键盘
+        //遍历keys，生成kbd标签
+        for(index = 0;index<keys.length;index=index+1){
+            div1 = document.createElement('div')
+            div1.className = 'row'
+            main1.appendChild(div1)
+            threeArray = keys[index]  //index=0返回0对应的第一个数组，index=1返回1对应的第二个数组，index=2返回2对应的第三个数组
+            index2 = 0
+            while (index2 < threeArray.length) {  //当index小于threeAarry所对应的数组的长度时
+
+                key1 = document.createElement('kbd')
+                key1.className = 'add'
+                key1.textContent = threeArray[index2] //返回index2的值所对应threeAarry数组中的值
+                div1.appendChild(key1)//添加一个kbd到div中
+
+                button1 = document.createElement('button')
+                button1.textContent = '编辑'
+                button1.id = threeArray[index2]
+                button1.onclick = function (x) {
+                    button2 = x['target']//'target']['id']就是用户点击的元素。
+                    image2 = button2.previousSibling  //拿到用户点击元素的前一个元素，在这里就是对应的img
+                    key = button2['id']
+                    enterLink = prompt('请输入您的网址')
+                    image2.src = 'https://' + enterLink + '/favicon.ico'
+                    image.onerror = function (error) {
+                        error.target.src = '//i.loli.net/2019/11/16/Ej3alzCoqp4NbZw.png'
+                    }
+                    hash[key] = enterLink
+                }
+                image = document.createElement('img')
+                if (hash[threeArray[index2]]) {               //如果有地址
+                    image.src = 'https://' + hash[threeArray[index2]] + '/favicon.ico' //返回地址对应的icon图标
+                } else {
+                    image.src = '//i.loli.net/2019/11/16/Ej3alzCoqp4NbZw.png' //没有地址就访问我们设置的图片
+                }
+                image.onerror = function (error) {            //如果是拒绝访问之类导致失败
+                    error.target.src = '//i.loli.net/2019/11/16/Ej3alzCoqp4NbZw.png' //同样设置返回我们自己的图片
+                }                                                //这里需要用target指定img，因为加载失败默认到显示最后一个
+                
+                key1.appendChild(image)
+                key1.appendChild(button1)
+                index2 = index2 + 1
+            }
+        }
+        document.onkeypress = function (qwe) {
+            keyName = qwe['key']         //将键的key属性值返回给keyName
+            website = hash[keyName]
+            // location.href = website  //指定当前页面的网址
+            window.open('http://' + website, '_blank')
+        }
+
+    </script>
+</body>
+
+</html>
